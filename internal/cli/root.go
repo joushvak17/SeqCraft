@@ -7,7 +7,7 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "Bioinformatics-CLI-Tool",
 	Short: "Bioinformatics CLI Tool written in Go",
-	Long: "CLI tool for sequence analysis, alignment, and structure analysis, all accessible through an easy-to-use command line interface.",
+	Long:  "CLI tool for sequence analysis, alignment, and structure analysis, all accessible through an easy-to-use command line interface.",
 }
 
 // Execute runs the root command and returns any error encountered.
