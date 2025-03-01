@@ -2,8 +2,8 @@ package parse
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
 	"github.com/joushvak17/Bioinformatics-CLI-Tool/pkg/parse"
+	"github.com/spf13/cobra"
 )
 
 // NewParseCmd creates and returns the `parse` command.

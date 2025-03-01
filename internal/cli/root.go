@@ -1,8 +1,8 @@
 package cli
 
 import (
-	"github.com/spf13/cobra"
 	"github.com/joushvak17/Bioinformatics-CLI-Tool/internal/parse" // Import the parse package
+	"github.com/spf13/cobra"
 )
 
 var rootCmd = &cobra.Command{
