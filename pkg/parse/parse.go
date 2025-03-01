@@ -7,31 +7,38 @@ import (
 	"strings"
 )
 
-// Record represents a single FASTA record.
+// Record represents a single FASTA record
 type Record struct {
 	ID          string // Sequence ID (text after '>')
 	Description string // Optional description (rest of the header line)
 	Sequence    string // Sequence data
 }
 
-// Parse reads a FASTA file and returns a slice of Record.
+// Parse reads a FASTA file and returns a slice of Record
 func Parse(filename string) ([]Record, error) {
+	// Open the file
 	file, err := os.Open(filename)
+	// Handle errors
 	if err != nil {
 		return nil, err
 	}
+	// Close the file when the function returns
 	defer file.Close()
 
+	// Create a slice to store the records and a pointer to the current record
 	var records []Record
 	var currentRecord *Record
 
+	// Create a scanner to read the file line by line
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
+		// Remove leading and trailing whitespaces
 		line := strings.TrimSpace(scanner.Text())
 		if line == "" {
 			continue // Skip empty lines
 		}
 
+		// Check if the line is a header
 		if line[0] == '>' {
 			// New record
 			if currentRecord != nil {
@@ -53,10 +60,12 @@ func Parse(filename string) ([]Record, error) {
 		}
 	}
 
+	// Add the last record
 	if currentRecord != nil {
 		records = append(records, *currentRecord)
 	}
 
+	// Check for errors during the scan
 	if err := scanner.Err(); err != nil {
 		return nil, err
 	}
