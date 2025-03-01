@@ -2,6 +2,7 @@ package cli
 
 import (
 	"github.com/spf13/cobra"
+	"github.com/yourusername/bioinfo-cli/internal/parse" // Import the parse package
 )
 
 var rootCmd = &cobra.Command{
@@ -17,4 +18,6 @@ func Execute() error {
 }
 
 func init() {
+	// Add the parse command to the root command
+	rootCmd.AddCommand(parse.NewParseCmd())
 }
