@@ -3,6 +3,7 @@ package parse
 import (
 	"fmt"
 	"github.com/joushvak17/Bioinformatics-CLI-Tool/pkg/parse"
+	// TODO: Figure out if we want to import sequence functions in separate file
 	"github.com/spf13/cobra"
 )
 
@@ -41,12 +42,12 @@ func NewParseCmd() *cobra.Command {
 				// TODO: Add additional analysis for the sequences
 				// if gcContent {
 				// 	// Calculate GC content
-				// 	gc := calculateGC(record.Sequence)
+				// 	gc := GCContent(record.Sequence)
 				// 	fmt.Printf("GC Content: %.2f%%\n", gc)
 				// }
 				// if reverseComp {
 				// 	// Calculate reverse complement
-				// 	reverse := reverseComplement(record.Sequence)
+				// 	reverse := ReverseComplement(record.Sequence)
 				// 	fmt.Printf("Reverse Complement: %s\n", reverse)
 				// }
 
