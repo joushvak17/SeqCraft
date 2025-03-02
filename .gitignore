@@ -23,6 +23,3 @@ go.work.sum
 
 # env file
 .env
-
-# FASTA test file for CLI testing
-test.fasta
