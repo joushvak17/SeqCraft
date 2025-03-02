@@ -7,7 +7,6 @@ import (
 )
 
 func main() {
-	fmt.Println("Welcome to Bioinformatics CLI Tool")
 	if err := cli.Execute(); err != nil {
 		fmt.Println("Error:", err)
 	}
