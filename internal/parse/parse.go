@@ -32,7 +32,10 @@ func NewParseCmd() *cobra.Command {
 			}
 
 			for _, record := range records {
-				fmt.Printf(">%s %s\n%s\n", record.ID, record.Description, record.Sequence)
+				// fmt.Printf(">%s %s\n%s\n", record.ID, record.Description, record.Sequence)
+				fmt.Printf("ID: %s\n", record.ID)
+				fmt.Printf("Description: %s\n", record.Description)
+				fmt.Printf("Sequence: %s\n\n", record.Sequence)
 
 				if sequenceLength {
 					length := len(record.Sequence)
