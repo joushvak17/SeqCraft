@@ -1,10 +1,10 @@
 package parse
 
 import (
-	"bufio"
-	"errors"
-	"os"
-	"strings"
+	"bufio"   // Buffered I/O operations
+	"errors"  // Error handling
+	"os"      // OS functionality
+	"strings" // String manipulation
 )
 
 // Record represents a single FASTA record

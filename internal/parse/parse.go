@@ -3,7 +3,7 @@ package parse
 import (
 	"fmt"
 	"github.com/joushvak17/Bioinformatics-CLI-Tool/pkg/parse"
-	// TODO: Figure out if we want to import sequence functions in separate file
+	"github.com/joushvak17/Bioinformatics-CLI-Tool/pkg/sequence"
 	"github.com/spf13/cobra"
 )
 
@@ -12,11 +12,12 @@ func NewParseCmd() *cobra.Command {
 	var (
 		// Define flags for the command
 		sequenceLength bool
+		gcContent      bool
 
 		// TODO: Add additional flags for analyzing the sequences
-		// Primarily the GC content and the reverse complement
-		// gcContent      bool
+		// Primarily the GC content, reverse complement, and nucleotide frequency
 		// reverseComp    bool
+		// nucleotideFreq bool
 	)
 
 	parseCmd := &cobra.Command{
@@ -42,16 +43,21 @@ func NewParseCmd() *cobra.Command {
 					fmt.Printf("Sequence Length: %d\n", length)
 				}
 
+				if gcContent {
+					gc := sequence.GCContent(record.Sequence)
+					fmt.Printf("GC Content: %.2f%%\n", gc)
+				}
+
 				// TODO: Add additional analysis for the sequences
-				// if gcContent {
-				// 	// Calculate GC content
-				// 	gc := GCContent(record.Sequence)
-				// 	fmt.Printf("GC Content: %.2f%%\n", gc)
-				// }
 				// if reverseComp {
 				// 	// Calculate reverse complement
 				// 	reverse := ReverseComplement(record.Sequence)
 				// 	fmt.Printf("Reverse Complement: %s\n", reverse)
+				// }
+				// if nucleotideFreq {
+				// 	// Calculate nucleotide frequency
+				// 	freq := NucleotideFrequency(record.Sequence)
+				// 	fmt.Printf("Nucleotide Frequency: %v\n", freq)
 				// }
 
 				fmt.Println() // Add an empty line between records
@@ -61,11 +67,11 @@ func NewParseCmd() *cobra.Command {
 
 	// Add flags to the command
 	parseCmd.Flags().BoolVarP(&sequenceLength, "length", "l", false, "Calculate sequence length")
+	parseCmd.Flags().BoolVarP(&gcContent, "gc", "g", false, "Calculate GC content")
 
 	// TODO: Add additional flags for analyzing the sequences
 	// Primarily the GC content and the reverse complement
 	// parseCmd.Flags().BoolVarP(&reverseComp, "reverse", "r", false, "Calculate reverse complement")
-	// parseCmd.Flags().BoolVarP(&sequenceLength, "length", "l", false, "Calculate sequence length")
 
 	return parseCmd
 }
