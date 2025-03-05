@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"github.com/joushvak17/Bioinformatics-CLI-Tool/internal/parse" // Import the parse package
+	"github.com/joushvak17/Bioinformatics-CLI-Tool/internal/parse"
 	"github.com/spf13/cobra"
 )
 

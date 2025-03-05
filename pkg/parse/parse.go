@@ -14,7 +14,7 @@ type Record struct {
 	Sequence    string // Sequence data
 }
 
-// Parse reads a FASTA file and returns a slice of Record
+// Parse reads a FASTA file and returns a slice of Record.
 func Parse(filename string) ([]Record, error) {
 	// Open the file
 	file, err := os.Open(filename)

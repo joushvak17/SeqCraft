@@ -7,7 +7,6 @@ func TestGCContent(t *testing.T) {
 		seq      string
 		expected float64
 	}{
-		// TODO: Come up with more test cases
 		{"ATGC", 50.0},
 		{"GGCC", 100.0},
 		{"ATAT", 0.0},
