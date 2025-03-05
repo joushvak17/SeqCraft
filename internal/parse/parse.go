@@ -36,7 +36,7 @@ func NewParseCmd() *cobra.Command {
 				// fmt.Printf(">%s %s\n%s\n", record.ID, record.Description, record.Sequence)
 				fmt.Printf("ID: %s\n", record.ID)
 				fmt.Printf("Description: %s\n", record.Description)
-				fmt.Printf("Sequence: %s\n\n", record.Sequence)
+				fmt.Printf("Sequence: %s\n", record.Sequence)
 
 				if sequenceLength {
 					length := len(record.Sequence)
@@ -70,7 +70,7 @@ func NewParseCmd() *cobra.Command {
 	parseCmd.Flags().BoolVarP(&gcContent, "gc", "g", false, "Calculate GC content")
 
 	// TODO: Add additional flags for analyzing the sequences
-	// Primarily the GC content and the reverse complement
+	// Primarily the nucleotide frequency and the reverse complement
 	// parseCmd.Flags().BoolVarP(&reverseComp, "reverse", "r", false, "Calculate reverse complement")
 
 	return parseCmd
