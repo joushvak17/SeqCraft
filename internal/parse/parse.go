@@ -13,10 +13,9 @@ func NewParseCmd() *cobra.Command {
 		// Define flags for the command
 		sequenceLength bool
 		gcContent      bool
+		reverseComp    bool
 
 		// TODO: Add additional flags for analyzing the sequences
-		// Primarily the GC content, reverse complement, and nucleotide frequency
-		// reverseComp    bool
 		// nucleotideFreq bool
 	)
 
@@ -48,12 +47,13 @@ func NewParseCmd() *cobra.Command {
 					fmt.Printf("GC Content: %.2f%%\n", gc)
 				}
 
+				if reverseComp {
+					// Calculate reverse complement
+					reverse := sequence.ReverseComplement(record.Sequence)
+					fmt.Printf("Reverse Complement: %s\n", reverse)
+				}
+
 				// TODO: Add additional analysis for the sequences
-				// if reverseComp {
-				// 	// Calculate reverse complement
-				// 	reverse := ReverseComplement(record.Sequence)
-				// 	fmt.Printf("Reverse Complement: %s\n", reverse)
-				// }
 				// if nucleotideFreq {
 				// 	// Calculate nucleotide frequency
 				// 	freq := NucleotideFrequency(record.Sequence)
@@ -68,10 +68,11 @@ func NewParseCmd() *cobra.Command {
 	// Add flags to the command
 	parseCmd.Flags().BoolVarP(&sequenceLength, "length", "l", false, "Calculate sequence length")
 	parseCmd.Flags().BoolVarP(&gcContent, "gc", "g", false, "Calculate GC content")
+	parseCmd.Flags().BoolVarP(&reverseComp, "reverse", "r", false, "Calculate reverse complement")
 
 	// TODO: Add additional flags for analyzing the sequences
-	// Primarily the nucleotide frequency and the reverse complement
-	// parseCmd.Flags().BoolVarP(&reverseComp, "reverse", "r", false, "Calculate reverse complement")
+	// Primarily the nucleotide frequency
+	// parseCmd.Flags().BoolVarP(&nucleotideFreq, "freq", "f", false, "Calculate nucleotide frequency")
 
 	return parseCmd
 }
