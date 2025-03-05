@@ -39,7 +39,7 @@ jobs:
   create-release:
     runs-on: ubuntu-latest
     needs: build-binaries
-    if: github.actor == 'joushvak17'  # Replace with your GitHub username
+    if: github.actor == 'joushvak17'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
