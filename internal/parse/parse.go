@@ -2,10 +2,12 @@ package parse
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/joushvak17/SeqCraft/pkg/parse"
 	"github.com/joushvak17/SeqCraft/pkg/sequence"
 	"github.com/spf13/cobra"
+	"golang.org/x/term"
 )
 
 // NewParseCmd creates and returns the `parse` command.
@@ -30,11 +32,27 @@ func NewParseCmd() *cobra.Command {
 				return
 			}
 
+			// Get the terminal width
+			width, _, err := term.GetSize(int(os.Stdout.Fd()))
+			if err != nil {
+				width = 80 // Standard terminal width
+			}
+
+			// TODO: Add additional information to the output message, such as the number of records parsed, etc
+			fmt.Printf("\nSeqCraft Parse Output(s):\n")
+
 			for _, record := range records {
-				// fmt.Printf(">%s %s\n%s\n", record.ID, record.Description, record.Sequence)
-				fmt.Printf("ID: %s\n", record.ID)
+				fmt.Printf("\nID: %s\n", record.ID)
 				fmt.Printf("Description: %s\n", record.Description)
-				fmt.Printf("Sequence: %s\n", record.Sequence)
+
+				// Print the sequence with a maximum width based on the terminal width and the prefix length
+				sequenceValue := record.Sequence
+				prefixLength := len("Sequence: ")
+				width -= prefixLength
+				if len(sequenceValue) > width {
+					sequenceValue = sequenceValue[:width-3] + "..."
+				}
+				fmt.Printf("Sequence: %s\n\n", sequenceValue)
 
 				if sequenceLength {
 					length := len(record.Sequence)
@@ -55,12 +73,14 @@ func NewParseCmd() *cobra.Command {
 				if nucleotideFreq {
 					// Calculate nucleotide frequency
 					freq := sequence.NucleotideFrequency(record.Sequence)
-					// TODO: Print the frequency in a more readable format
-					fmt.Printf("Nucleotide Frequency: %v\n", freq)
+					fmt.Println("Nucleotide Frequency:")
+					for nucleotide, count := range freq {
+						fmt.Printf("%s: %f\n", string(nucleotide), count)
+					}
 				}
-
-				fmt.Println() // Add an empty line between records
 			}
+
+			fmt.Println() // Add a newline at the end
 		},
 	}
 
