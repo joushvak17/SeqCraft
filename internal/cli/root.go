@@ -8,7 +8,7 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "SeqCraft",
 	Short: "SeqCraft - Bioinformatics CLI Tool written in Go",
-	Long:  "CLI tool for sequence analysis, alignment, and structure analysis, all accessible through an easy-to-use command line interface.",
+	Long:  "SeqCraft - CLI tool for sequence analysis, alignment, and structure analysis, all accessible through an easy-to-use command line interface.",
 }
 
 // Execute runs the root command and returns any error encountered.
