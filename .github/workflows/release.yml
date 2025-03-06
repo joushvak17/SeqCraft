@@ -19,22 +19,25 @@ jobs:
           go-version: 1.24.0
 
       - name: Build Linux binary
-        run: GOOS=linux GOARCH=amd64 go build -o seqcraft cmd/app/main.go
+        run: |
+          mkdir -p binaries/linux
+          GOOS=linux GOARCH=amd64 go build -o binaries/linux/seqcraft cmd/app/main.go
 
       - name: Build macOS binary
-        run: GOOS=darwin GOARCH=amd64 go build -o seqcraft cmd/app/main.go
+        run: |
+          mkdir -p binaries/macos
+          GOOS=darwin GOARCH=amd64 go build -o binaries/macos/seqcraft cmd/app/main.go
 
       - name: Build Windows binary
-        run: GOOS=windows GOARCH=amd64 go build -o seqcraft.exe cmd/app/main.go
+        run: |
+          mkdir -p binaries/windows
+          GOOS=windows GOARCH=amd64 go build -o binaries/windows/seqcraft.exe
 
       - name: Upload binaries
         uses: actions/upload-artifact@v4
         with:
           name: binaries
-          path: |
-            seqcraft
-            seqcraft
-            seqcraft.exe
+          path: binaries/**
 
   create-release:
     runs-on: ubuntu-latest
@@ -63,6 +66,6 @@ jobs:
             - macOS: seqcraft
             - Windows: seqcraft.exe
           files: |
-            binaries/seqcraft
-            binaries/seqcraft
-            binaries/seqcraft.exe
+            binaries/linux/seqcraft
+            binaries/macos/seqcraft
+            binaries/windows/seqcraft.exe
