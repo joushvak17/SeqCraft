@@ -19,22 +19,22 @@ jobs:
           go-version: 1.24.0
 
       - name: Build Linux binary
-        run: GOOS=linux GOARCH=amd64 go build -o bioinfo-cli-linux-amd64 cmd/app/main.go
+        run: GOOS=linux GOARCH=amd64 go build -o seqcraft-cli-linux-amd64 cmd/app/main.go
 
       - name: Build macOS binary
-        run: GOOS=darwin GOARCH=amd64 go build -o bioinfo-cli-darwin-amd64 cmd/app/main.go
+        run: GOOS=darwin GOARCH=amd64 go build -o seqcraft-cli-darwin-amd64 cmd/app/main.go
 
       - name: Build Windows binary
-        run: GOOS=windows GOARCH=amd64 go build -o bioinfo-cli-windows-amd64.exe cmd/app/main.go
+        run: GOOS=windows GOARCH=amd64 go build -o seqcraft-cli-windows-amd64.exe cmd/app/main.go
 
       - name: Upload binaries
         uses: actions/upload-artifact@v4
         with:
           name: binaries
           path: |
-            bioinfo-cli-linux-amd64
-            bioinfo-cli-darwin-amd64
-            bioinfo-cli-windows-amd64.exe
+            seqcraft-cli-linux-amd64
+            seqcraft-cli-darwin-amd64
+            seqcraft-cli-windows-amd64.exe
 
   create-release:
     runs-on: ubuntu-latest
@@ -59,10 +59,10 @@ jobs:
           name: Release ${{ github.ref }}
           body: |
             Release ${{ github.ref }}
-            - Linux: bioinfo-cli-linux-amd64
-            - macOS: bioinfo-cli-darwin-amd64
-            - Windows: bioinfo-cli-windows-amd64.exe
+            - Linux: seqcraft-cli-linux-amd64
+            - macOS: seqcraft-cli-darwin-amd64
+            - Windows: seqcraft-cli-windows-amd64.exe
           files: |
-            binaries/bioinfo-cli-linux-amd64
-            binaries/bioinfo-cli-darwin-amd64
-            binaries/bioinfo-cli-windows-amd64.exe
+            binaries/seqcraft-cli-linux-amd64
+            binaries/seqcraft-cli-darwin-amd64
+            binaries/seqcraft-cli-windows-amd64.exe
