@@ -3,8 +3,8 @@ package parse
 import (
 	"fmt"
 
-	"github.com/joushvak17/Bioinformatics-CLI-Tool/pkg/parse"
-	"github.com/joushvak17/Bioinformatics-CLI-Tool/pkg/sequence"
+	"github.com/joushvak17/SeqCraft/pkg/parse"
+	"github.com/joushvak17/SeqCraft/pkg/sequence"
 	"github.com/spf13/cobra"
 )
 

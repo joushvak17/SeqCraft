@@ -1,13 +1,13 @@
 package cli
 
 import (
-	"github.com/joushvak17/Bioinformatics-CLI-Tool/internal/parse"
+	"github.com/joushvak17/SeqCraft/internal/parse"
 	"github.com/spf13/cobra"
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "Bioinformatics-CLI-Tool",
-	Short: "Bioinformatics CLI Tool written in Go",
+	Use:   "SeqCraft",
+	Short: "SeqCraft - Bioinformatics CLI Tool written in Go",
 	Long:  "CLI tool for sequence analysis, alignment, and structure analysis, all accessible through an easy-to-use command line interface.",
 }
 

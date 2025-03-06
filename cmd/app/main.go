@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/joushvak17/Bioinformatics-CLI-Tool/internal/cli"
+	"github.com/joushvak17/SeqCraft/internal/cli"
 )
 
 func main() {

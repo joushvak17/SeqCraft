@@ -1,4 +1,4 @@
-module github.com/joushvak17/Bioinformatics-CLI-Tool
+module github.com/joushvak17/SeqCraft
 
 go 1.24.0
 
