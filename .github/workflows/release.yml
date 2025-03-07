@@ -77,6 +77,11 @@ jobs:
           name: windows-binary
           path: ./binaries/windows
 
+      - name: Restore executable permissions
+        run: |
+          chmod +x ./binaries/linux/seqcraft
+          chmod +x ./binaries/macos/seqcraft
+
       - name: List binaries
         run: ls -R ./binaries
 
