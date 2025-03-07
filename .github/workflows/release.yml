@@ -33,11 +33,23 @@ jobs:
           mkdir -p binaries/windows
           GOOS=windows GOARCH=amd64 go build -o binaries/windows/seqcraft.exe cmd/app/main.go
 
-      - name: Upload binaries
+      - name: Upload Linux binary
         uses: actions/upload-artifact@v4
         with:
-          name: binaries
-          path: binaries/**
+          name: linux-binary
+          path: binaries/linux/seqcraft
+
+      - name: Upload macOS binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-binary
+          path: binaries/macos/seqcraft
+
+      - name: Upload Windows binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-binary
+          path: binaries/windows/seqcraft.exe
 
   create-release:
     runs-on: ubuntu-latest
@@ -47,11 +59,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download binaries
+      - name: Download Linux binary
         uses: actions/download-artifact@v4
         with:
-          name: binaries
-          path: ./binaries
+          name: linux-binary
+          path: ./binaries/linux
+
+      - name: Download macOS binary
+        uses: actions/download-artifact@v4
+        with:
+          name: macos-binary
+          path: ./binaries/macos
+
+      - name: Download Windows binary
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-binary
+          path: ./binaries/windows
 
       - name: List binaries
         run: ls -R ./binaries
