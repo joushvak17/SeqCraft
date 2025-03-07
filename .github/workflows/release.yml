@@ -19,37 +19,22 @@ jobs:
           go-version: 1.24.0
 
       - name: Build Linux binary
-        run: |
-          mkdir -p binaries/linux
-          GOOS=linux GOARCH=amd64 go build -o binaries/linux/seqcraft cmd/app/main.go
+        run: GOOS=linux GOARCH=amd64 go build -o bioinfo-cli-linux-amd64 cmd/app/main.go
 
       - name: Build macOS binary
-        run: |
-          mkdir -p binaries/macos
-          GOOS=darwin GOARCH=amd64 go build -o binaries/macos/seqcraft cmd/app/main.go
+        run: GOOS=darwin GOARCH=amd64 go build -o bioinfo-cli-darwin-amd64 cmd/app/main.go
 
       - name: Build Windows binary
-        run: |
-          mkdir -p binaries/windows
-          GOOS=windows GOARCH=amd64 go build -o binaries/windows/seqcraft.exe cmd/app/main.go
+        run: GOOS=windows GOARCH=amd64 go build -o bioinfo-cli-windows-amd64.exe cmd/app/main.go
 
-      - name: Upload Linux binary
+      - name: Upload binaries
         uses: actions/upload-artifact@v4
         with:
-          name: linux-binary
-          path: binaries/linux/seqcraft
-
-      - name: Upload macOS binary
-        uses: actions/upload-artifact@v4
-        with:
-          name: macos-binary
-          path: binaries/macos/seqcraft
-
-      - name: Upload Windows binary
-        uses: actions/upload-artifact@v4
-        with:
-          name: windows-binary
-          path: binaries/windows/seqcraft.exe
+          name: binaries
+          path: |
+            bioinfo-cli-linux-amd64
+            bioinfo-cli-darwin-amd64
+            bioinfo-cli-windows-amd64.exe
 
   create-release:
     runs-on: ubuntu-latest
@@ -59,31 +44,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download Linux binary
+      - name: Download binaries
         uses: actions/download-artifact@v4
         with:
-          name: linux-binary
-          path: ./binaries/linux
-
-      - name: Download macOS binary
-        uses: actions/download-artifact@v4
-        with:
-          name: macos-binary
-          path: ./binaries/macos
-
-      - name: Download Windows binary
-        uses: actions/download-artifact@v4
-        with:
-          name: windows-binary
-          path: ./binaries/windows
-
-      - name: Restore executable permissions
-        run: |
-          chmod +x ./binaries/linux/seqcraft
-          chmod +x ./binaries/macos/seqcraft
-
-      - name: List binaries
-        run: ls -R ./binaries
+          name: binaries
+          path: ./binaries
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
@@ -94,10 +59,10 @@ jobs:
           name: Release ${{ github.ref }}
           body: |
             Release ${{ github.ref }}
-            - Linux: seqcraft
-            - macOS: seqcraft
-            - Windows: seqcraft.exe
+            - Linux: bioinfo-cli-linux-amd64
+            - macOS: bioinfo-cli-darwin-amd64
+            - Windows: bioinfo-cli-windows-amd64.exe
           files: |
-            ./binaries/linux/seqcraft
-            ./binaries/macos/seqcraft
-            ./binaries/windows/seqcraft.exe
+            binaries/bioinfo-cli-linux-amd64
+            binaries/bioinfo-cli-darwin-amd64
+            binaries/bioinfo-cli-windows-amd64.exe
