@@ -41,7 +41,7 @@ func NewParseCmd() *cobra.Command {
 			if err != nil {
 				width = 80 // Standard terminal width
 			}
-			
+
 			// Get the current date and time
 			currentTime := time.Now().Format("January 2, 2006 3:04 PM")
 
