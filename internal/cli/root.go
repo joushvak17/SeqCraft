@@ -1,14 +1,15 @@
 package cli
 
 import (
+	"github.com/fatih/color"
 	"github.com/joushvak17/SeqCraft/internal/parse"
 	"github.com/spf13/cobra"
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "SeqCraft",
-	Short: "SeqCraft - Bioinformatics CLI Tool written in Go",
-	Long:  "SeqCraft - CLI tool for sequence analysis, alignment, and structure analysis, all accessible through an easy-to-use command line interface.",
+	Use:   color.GreenString("SeqCraft"),
+	Short: color.GreenString("SeqCraft") + " - Bioinformatics CLI Tool written in Go",
+	Long:  color.GreenString("SeqCraft") + " - CLI tool for sequence analysis, alignment, and structure analysis, all accessible through an easy-to-use command line interface.",
 }
 
 // Execute runs the root command and returns any error encountered.
@@ -24,26 +25,26 @@ func init() {
 
 // TODO: The following will list out the things that need to be done in the future
 
-// Advanced Features
-// - Sequence Alignment: Pairwise sequence alignment and support for MSA
-// - Sequence Translation: Translate DNA/RNA sequences to protein sequences
-// - Motif Search: Search for specific motifs in sequences
-// - Secondary Structure Prediction: Predict secondary structure of protein sequences
-// - Phylogenetic Analysis: Construct phylogenetic trees from sequence data
-
-// Improve Usability
+// 1. Improve Usability
 // - Add more detailed help messages for each command
 // - Progress bars for long-running tasks
 // - Error handling and reporting
 // - Input validation and error messages
 
-// Logging
+// 2. Logging
 // - Log levels: Use different log levels, like INFO, WARNING, ERROR, DEBUG
 // - Log Files: Write logs to a file for debugging and analysis
 
-// Optimization
+// 3. Optimization
 // - Parallel Processing: Use concurrency to speed up processing
 // - Memory Optimization: Reduce memory usage for large datasets
+
+// 4. Advanced Features
+// - Sequence Alignment: Pairwise sequence alignment and support for MSA
+// - Sequence Translation: Translate DNA/RNA sequences to protein sequences
+// - Motif Search: Search for specific motifs in sequences
+// - Secondary Structure Prediction: Predict secondary structure of protein sequences
+// - Phylogenetic Analysis: Construct phylogenetic trees from sequence data
 
 // Add Support for Additional File Formats
 // Add a Web Interface
