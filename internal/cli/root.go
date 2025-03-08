@@ -26,7 +26,7 @@ func init() {
 
 // Advanced Features
 // - Sequence Alignment: Pairwise sequence alignment and support for MSA
-// - Sequence Translation: Translate DNA/RNA sequences to protein sequences 
+// - Sequence Translation: Translate DNA/RNA sequences to protein sequences
 // - Motif Search: Search for specific motifs in sequences
 // - Secondary Structure Prediction: Predict secondary structure of protein sequences
 // - Phylogenetic Analysis: Construct phylogenetic trees from sequence data
