@@ -46,7 +46,7 @@ func NewParseCmd() *cobra.Command {
 			currentTime := time.Now().Format("January 2, 2006 3:04 PM")
 
 			// Prepare output
-			output := fmt.Sprintf("\nSeqCraft Parse Output(s):\n")
+			output := "\nSeqCraft Parse Output(s):\n"
 			output += fmt.Sprintf("Date and Time: %s\n", currentTime)
 			output += fmt.Sprintf("Number of records parsed: %d\n", len(records))
 
