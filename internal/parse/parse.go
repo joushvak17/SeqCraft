@@ -10,6 +10,7 @@ import (
 	"github.com/joushvak17/SeqCraft/pkg/sequence"
 	"github.com/spf13/cobra"
 	"golang.org/x/term"
+	"github.com/fatih/color"
 )
 
 // NewParseCmd creates and returns the `parse` command.
@@ -21,7 +22,6 @@ func NewParseCmd() *cobra.Command {
 		reverseComp    bool
 		nucleotideFreq bool
 		outputFile     string
-		verbose        bool
 	)
 
 	parseCmd := &cobra.Command{
@@ -36,6 +36,7 @@ func NewParseCmd() *cobra.Command {
 				return
 			}
 
+			// TODO: Figure out if we should print the entire sequence or just a part of it
 			// Get the terminal width
 			width, _, err := term.GetSize(int(os.Stdout.Fd()))
 			if err != nil {
@@ -46,9 +47,9 @@ func NewParseCmd() *cobra.Command {
 			currentTime := time.Now().Format("January 2, 2006 3:04 PM")
 
 			// Prepare output
-			output := "\nSeqCraft Parse Output(s):\n"
+			output := color.GreenString("SeqCraft") + color.YellowString(" Parse Output(s):\n")
 			output += fmt.Sprintf("Date and Time: %s\n", currentTime)
-			output += fmt.Sprintf("Number of records parsed: %d\n", len(records))
+			output += fmt.Sprintf("Number of Records Parsed: %d\n", len(records))
 
 			totalLength := 0
 			totalGCContent := 0.0
@@ -56,9 +57,10 @@ func NewParseCmd() *cobra.Command {
 			var lengths []int
 
 			for _, record := range records {
-				output += fmt.Sprintf("\nID: %s\n", record.ID)
-				output += fmt.Sprintf("Description: %s\n", record.Description)
+				output += fmt.Sprintf("\n" + color.RedString("ID:") + " %s\n", record.ID)
+				output += fmt.Sprintf(color.RedString("Description:") + " %s\n", record.Description)
 
+				// TODO: Figure out if we should print the entire sequence or just a part of it
 				// Print the sequence with a maximum width based on the terminal width and the prefix length
 				sequenceValue := record.Sequence
 				prefixLength := len("Sequence: ")
@@ -66,7 +68,7 @@ func NewParseCmd() *cobra.Command {
 				if len(sequenceValue) > width {
 					sequenceValue = sequenceValue[:width-3] + "..."
 				}
-				output += fmt.Sprintf("Sequence: %s\n\n", sequenceValue)
+				output += fmt.Sprintf(color.RedString("Sequence:") + " %s\n\n", sequenceValue)
 
 				if sequenceLength {
 					length := len(record.Sequence)
@@ -101,11 +103,11 @@ func NewParseCmd() *cobra.Command {
 			}
 
 			// Print aggregate statistics
-			output += "\nSeqCraft Aggregate Statistic(s):\n"
+			output += "\n" + color.GreenString("SeqCraft") + color.YellowString(" Aggregate Statistics:\n")
 
 			if sequenceLength {
 				averageLength := float64(totalLength) / float64(len(records))
-				output += fmt.Sprintf("\nTotal Sequence Length: %d\n", totalLength)
+				output += fmt.Sprintf("Total Sequence Length: %d\n", totalLength)
 				output += fmt.Sprintf("Average Sequence Length: %.2f\n", averageLength)
 				// Add min, max, and median length calculations
 				minLength, maxLength, medianLength := calculateLengthStats(lengths)
@@ -148,7 +150,6 @@ func NewParseCmd() *cobra.Command {
 	parseCmd.Flags().BoolVarP(&reverseComp, "reverse", "r", false, "Calculate reverse complement")
 	parseCmd.Flags().BoolVarP(&nucleotideFreq, "freq", "f", false, "Calculate nucleotide frequency")
 	parseCmd.Flags().StringVarP(&outputFile, "output", "o", "", "Output file to save results")
-	parseCmd.Flags().BoolVarP(&verbose, "verbose", "v", false, "Enable verbose mode")
 
 	return parseCmd
 }
