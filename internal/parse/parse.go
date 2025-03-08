@@ -38,8 +38,13 @@ func NewParseCmd() *cobra.Command {
 				width = 80 // Standard terminal width
 			}
 
-			// TODO: Add additional information to the output message, such as the number of records parsed, etc
+			// Add additional information to the output message
 			fmt.Printf("\nSeqCraft Parse Output(s):\n")
+			fmt.Printf("Number of records parsed: %d\n", len(records))
+
+			totalLength := 0
+			totalGCContent := 0.0
+			totalNucleotideFreq := make(map[rune]float64)
 
 			for _, record := range records {
 				fmt.Printf("\nID: %s\n", record.ID)
@@ -56,11 +61,13 @@ func NewParseCmd() *cobra.Command {
 
 				if sequenceLength {
 					length := len(record.Sequence)
+					totalLength += length
 					fmt.Printf("Sequence Length: %d\n", length)
 				}
 
 				if gcContent {
 					gc := sequence.GCContent(record.Sequence)
+					totalGCContent += gc
 					fmt.Printf("GC Content: %.2f%%\n", gc)
 				}
 
@@ -73,10 +80,32 @@ func NewParseCmd() *cobra.Command {
 				if nucleotideFreq {
 					// Calculate nucleotide frequency
 					freq := sequence.NucleotideFrequency(record.Sequence)
+					for nucleotide, count := range freq {
+						totalNucleotideFreq[nucleotide] += count
+					}
 					fmt.Println("Nucleotide Frequency:")
 					for nucleotide, count := range freq {
-						fmt.Printf("%s: %f\n", string(nucleotide), count)
+						fmt.Printf("%s: %.4f\n", string(nucleotide), count)
 					}
+				}
+			}
+
+			// Print aggregate statistics
+			if sequenceLength {
+				averageLength := float64(totalLength) / float64(len(records))
+				fmt.Printf("\nTotal Sequence Length: %d\n", totalLength)
+				fmt.Printf("Average Sequence Length: %.2f\n", averageLength)
+			}
+
+			if gcContent {
+				averageGCContent := totalGCContent / float64(len(records))
+				fmt.Printf("Average GC Content: %.2f%%\n", averageGCContent)
+			}
+
+			if nucleotideFreq {
+				fmt.Println("Total Nucleotide Frequency:")
+				for nucleotide, count := range totalNucleotideFreq {
+					fmt.Printf("%s: %.4f\n", string(nucleotide), count)
 				}
 			}
 
