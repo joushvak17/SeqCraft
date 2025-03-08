@@ -6,11 +6,11 @@ import (
 	"sort"
 	"time"
 
+	"github.com/fatih/color"
 	"github.com/joushvak17/SeqCraft/pkg/parse"
 	"github.com/joushvak17/SeqCraft/pkg/sequence"
 	"github.com/spf13/cobra"
 	"golang.org/x/term"
-	"github.com/fatih/color"
 )
 
 // NewParseCmd creates and returns the `parse` command.
@@ -57,8 +57,8 @@ func NewParseCmd() *cobra.Command {
 			var lengths []int
 
 			for _, record := range records {
-				output += fmt.Sprintf("\n" + color.RedString("ID:") + " %s\n", record.ID)
-				output += fmt.Sprintf(color.RedString("Description:") + " %s\n", record.Description)
+				output += fmt.Sprintf("\n"+color.RedString("ID:")+" %s\n", record.ID)
+				output += fmt.Sprintf(color.RedString("Description:")+" %s\n", record.Description)
 
 				// TODO: Figure out if we should print the entire sequence or just a part of it
 				// Print the sequence with a maximum width based on the terminal width and the prefix length
@@ -68,7 +68,7 @@ func NewParseCmd() *cobra.Command {
 				if len(sequenceValue) > width {
 					sequenceValue = sequenceValue[:width-3] + "..."
 				}
-				output += fmt.Sprintf(color.RedString("Sequence:") + " %s\n\n", sequenceValue)
+				output += fmt.Sprintf(color.RedString("Sequence:")+" %s\n\n", sequenceValue)
 
 				if sequenceLength {
 					length := len(record.Sequence)
