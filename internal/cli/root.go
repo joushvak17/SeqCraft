@@ -26,7 +26,7 @@ func init() {
 // TODO: The following will list out the things that need to be done in the future
 
 // 1. Improve Usability
-// - Easier to read output formats (e.g. tabular output) 
+// - Easier to read output formats (e.g. tabular output)
 // 	 [DONE: Added color to output for the parse command]
 // - Error handling and reporting
 // - Input validation and error messages
