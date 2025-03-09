@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"sort"
+	"strings"
 	"time"
 
 	"github.com/fatih/color"
@@ -16,7 +17,6 @@ import (
 // NewParseCmd creates and returns the `parse` command.
 func NewParseCmd() *cobra.Command {
 	var (
-		// Define flags for the command
 		sequenceLength bool
 		gcContent      bool
 		reverseComp    bool
@@ -26,10 +26,23 @@ func NewParseCmd() *cobra.Command {
 
 	parseCmd := &cobra.Command{
 		Use:   "parse <file>",
-		Short: "Parse and analyze a FASTA file using basic functionality",
+		Short: "Parse and analyze a FASTA file",
+		Long:  "Parse and analyze a FASTA file, including sequence length, GC content, reverse complement, and nucleotide frequency.",
 		Args:  cobra.ExactArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			filename := args[0]
+
+			// Input validation, check if the file exists and is a valid FASTA file
+			if _, err := os.Stat(filename); os.IsNotExist(err) {
+				fmt.Printf("Error: File %s does not exist\n", filename)
+				return
+			}
+			if !strings.HasSuffix(filename, ".fasta") && !strings.HasSuffix(filename, ".fa") {
+				fmt.Printf("Error: File %s is not a valid FASTA file\n", filename)
+				return
+			}
+
+			// Parse the FASTA file
 			records, err := parse.Parse(filename)
 			if err != nil {
 				fmt.Printf("Error parsing FASTA file: %v\n", err)
