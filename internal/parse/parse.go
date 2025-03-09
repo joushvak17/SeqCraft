@@ -26,7 +26,7 @@ func NewParseCmd() *cobra.Command {
 
 	parseCmd := &cobra.Command{
 		Use:   "parse <file>",
-		Short: "Parse and analyze a FASTA file",
+		Short: "Parse and analyze a FASTA file using basic functionality",
 		Args:  cobra.ExactArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			filename := args[0]
