@@ -11,7 +11,6 @@ import (
 	"github.com/joushvak17/SeqCraft/pkg/parse"
 	"github.com/joushvak17/SeqCraft/pkg/sequence"
 	"github.com/spf13/cobra"
-	"golang.org/x/term"
 )
 
 // NewParseCmd creates and returns the `parse` command.
@@ -49,13 +48,6 @@ func NewParseCmd() *cobra.Command {
 				return
 			}
 
-			// TODO: Figure out if we should print the entire sequence or just a part of it
-			// Get the terminal width
-			width, _, err := term.GetSize(int(os.Stdout.Fd()))
-			if err != nil {
-				width = 80 // Standard terminal width
-			}
-
 			// Get the current date and time
 			currentTime := time.Now().Format("January 2, 2006 3:04 PM")
 
@@ -78,23 +70,11 @@ func NewParseCmd() *cobra.Command {
 			for _, record := range records {
 				output += fmt.Sprintf("\n"+color.RedString("ID:")+" %s\n", record.ID)
 				output += fmt.Sprintf(color.RedString("Description:")+" %s\n", record.Description)
+				output += fmt.Sprintf(color.RedString("Sequence:")+" %s\n\n", record.Sequence)
 
 				if outputFile != "" {
 					plainOutput += fmt.Sprintf("\nID: %s\n", record.ID)
 					plainOutput += fmt.Sprintf("Description: %s\n", record.Description)
-				}
-
-				// TODO: Figure out if we should print the entire sequence or just a part of it
-				// Print the sequence with a maximum width based on the terminal width and the prefix length
-				sequenceValue := record.Sequence
-				prefixLength := len("Sequence: ")
-				width -= prefixLength
-				if len(sequenceValue) > width {
-					sequenceValue = sequenceValue[:width-3] + "..."
-				}
-				output += fmt.Sprintf(color.RedString("Sequence:")+" %s\n\n", sequenceValue)
-
-				if outputFile != "" {
 					plainOutput += fmt.Sprintf("Sequence: %s\n", record.Sequence)
 				}
 
