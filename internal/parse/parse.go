@@ -10,6 +10,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/joushvak17/SeqCraft/pkg/parse"
 	"github.com/joushvak17/SeqCraft/pkg/sequence"
+	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
 
@@ -20,6 +21,7 @@ func NewParseCmd() *cobra.Command {
 		gcContent      bool
 		reverseComp    bool
 		nucleotideFreq bool
+		interactive     bool
 		outputFile     string
 	)
 
@@ -39,6 +41,29 @@ func NewParseCmd() *cobra.Command {
 			if !strings.HasSuffix(filename, ".fasta") && !strings.HasSuffix(filename, ".fa") {
 				fmt.Printf("Error: File %s is not a valid FASTA file\n", filename)
 				return
+			}
+
+			// Interactive mode
+			if interactive {
+				prompt := promptui.Select{
+					Label: "Select analysis options",
+					Items: []string{"Sequence Length", "GC Content", "Reverse Complement", "Nucleotide Frequency"},
+				}
+				_, result, err := prompt.Run()
+				if err != nil {
+					fmt.Printf("Prompt failed %v\n", err)
+					return
+				}
+				switch result {
+				case "Sequence Length":
+					sequenceLength = true
+				case "GC Content":
+					gcContent = true
+				case "Reverse Complement":
+					reverseComp = true
+				case "Nucleotide Frequency":
+					nucleotideFreq = true
+				}
 			}
 
 			// Parse the FASTA file
@@ -85,7 +110,7 @@ func NewParseCmd() *cobra.Command {
 					length := len(record.Sequence)
 					totalLength += length
 					lengths = append(lengths, length)
-					output += fmt.Sprintf("Sequence Length: %d\n", length)
+					output += fmt.Sprintf(color.MagentaString("Sequence Length") + ": %d\n", length)
 					if outputFile != "" {
 						plainOutput += fmt.Sprintf("Sequence Length: %d\n", length)
 					}
@@ -95,7 +120,7 @@ func NewParseCmd() *cobra.Command {
 				if gcContent {
 					gc := sequence.GCContent(record.Sequence)
 					totalGCContent += gc
-					output += fmt.Sprintf("GC Content: %.2f%%\n", gc)
+					output += fmt.Sprintf(color.MagentaString("GC Content") + ": %.2f%%\n", gc)
 					if outputFile != "" {
 						plainOutput += fmt.Sprintf("GC Content: %.2f%%\n", gc)
 					}
@@ -104,7 +129,7 @@ func NewParseCmd() *cobra.Command {
 				// Reverse complement
 				if reverseComp {
 					reverse := sequence.ReverseComplement(record.Sequence)
-					output += fmt.Sprintf("Reverse Complement: %s\n", reverse)
+					output += fmt.Sprintf(color.MagentaString("Reverse Complement") + ": %s\n", reverse)
 					if outputFile != "" {
 						plainOutput += fmt.Sprintf("Reverse Complement: %s\n", reverse)
 					}
@@ -116,7 +141,7 @@ func NewParseCmd() *cobra.Command {
 					for nucleotide, count := range freq {
 						totalNucleotideFreq[nucleotide] += count
 					}
-					output += "Nucleotide Frequency:\n"
+					output += color.MagentaString("Nucleotide Frequency") + ":\n"
 					if outputFile != "" {
 						plainOutput += "Nucleotide Frequency:\n"
 					}
@@ -138,13 +163,13 @@ func NewParseCmd() *cobra.Command {
 			// Sequence length
 			if sequenceLength {
 				averageLength := float64(totalLength) / float64(len(records))
-				output += fmt.Sprintf("Total Sequence Length: %d\n", totalLength)
-				output += fmt.Sprintf("Average Sequence Length: %.2f\n", averageLength)
+				output += fmt.Sprintf(color.MagentaString("Total Sequence Length") + ": %d\n", totalLength)
+				output += fmt.Sprintf(color.MagentaString("Average Sequence Length") + ": %.2f\n", averageLength)
 				// Add min, max, and median length calculations
 				minLength, maxLength, medianLength := calculateLengthStats(lengths)
-				output += fmt.Sprintf("Min Sequence Length: %d\n", minLength)
-				output += fmt.Sprintf("Max Sequence Length: %d\n", maxLength)
-				output += fmt.Sprintf("Median Sequence Length: %.2f\n", medianLength)
+				output += fmt.Sprintf(color.MagentaString("Min Sequence Length") + ": %d\n", minLength)
+				output += fmt.Sprintf(color.MagentaString("Max Sequence Length") + ": %d\n", maxLength)
+				output += fmt.Sprintf(color.MagentaString("Median Sequence Length") + ": %.2f\n", medianLength)
 
 				if outputFile != "" {
 					plainOutput += fmt.Sprintf("Total Sequence Length: %d\n", totalLength)
@@ -160,7 +185,7 @@ func NewParseCmd() *cobra.Command {
 			// GC content
 			if gcContent {
 				averageGCContent := totalGCContent / float64(len(records))
-				output += fmt.Sprintf("Average GC Content: %.2f%%\n", averageGCContent)
+				output += fmt.Sprintf(color.MagentaString("Average GC Content") + ": %.2f%%\n", averageGCContent)
 
 				if outputFile != "" {
 					plainOutput += fmt.Sprintf("Average GC Content: %.2f%%\n", averageGCContent)
@@ -169,7 +194,7 @@ func NewParseCmd() *cobra.Command {
 
 			// Nucleotide frequency
 			if nucleotideFreq {
-				output += "Total Nucleotide Frequency:\n"
+				output += color.MagentaString("Total Nucleotide Frequency") + ":\n"
 
 				if outputFile != "" {
 					plainOutput += "Total Nucleotide Frequency:\n"
@@ -203,6 +228,7 @@ func NewParseCmd() *cobra.Command {
 	parseCmd.Flags().BoolVarP(&gcContent, "gc", "g", false, "Calculate GC content")
 	parseCmd.Flags().BoolVarP(&reverseComp, "reverse", "r", false, "Calculate reverse complement")
 	parseCmd.Flags().BoolVarP(&nucleotideFreq, "freq", "f", false, "Calculate nucleotide frequency")
+	parseCmd.Flags().BoolVarP(&interactive, "interactive", "i", false, "Enable interactive mode")
 	parseCmd.Flags().StringVarP(&outputFile, "output", "o", "", "Output file to save results")
 
 	return parseCmd
