@@ -7,10 +7,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/AlecAivazis/survey/v2"
 	"github.com/fatih/color"
 	"github.com/joushvak17/SeqCraft/pkg/parse"
 	"github.com/joushvak17/SeqCraft/pkg/sequence"
-	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
 
@@ -45,24 +45,28 @@ func NewParseCmd() *cobra.Command {
 
 			// Interactive mode
 			if interactive {
-				prompt := promptui.Select{
-					Label: "Select analysis options",
-					Items: []string{"Sequence Length", "GC Content", "Reverse Complement", "Nucleotide Frequency"},
+				options := []string{"Sequence Length", "GC Content", "Reverse Complement", "Nucleotide Frequency"}
+				var selectedOptions []string
+				prompt := &survey.MultiSelect{
+					Message: "Select analysis options:",
+					Options: options,
 				}
-				_, result, err := prompt.Run()
+				err := survey.AskOne(prompt, &selectedOptions)
 				if err != nil {
 					fmt.Printf("Prompt failed %v\n", err)
 					return
 				}
-				switch result {
-				case "Sequence Length":
-					sequenceLength = true
-				case "GC Content":
-					gcContent = true
-				case "Reverse Complement":
-					reverseComp = true
-				case "Nucleotide Frequency":
-					nucleotideFreq = true
+				for _, option := range selectedOptions {
+					switch option {
+					case "Sequence Length":
+						sequenceLength = true
+					case "GC Content":
+						gcContent = true
+					case "Reverse Complement":
+						reverseComp = true
+					case "Nucleotide Frequency":
+						nucleotideFreq = true
+					}
 				}
 			}
 
@@ -165,7 +169,6 @@ func NewParseCmd() *cobra.Command {
 				averageLength := float64(totalLength) / float64(len(records))
 				output += fmt.Sprintf(color.MagentaString("Total Sequence Length")+": %d\n", totalLength)
 				output += fmt.Sprintf(color.MagentaString("Average Sequence Length")+": %.2f\n", averageLength)
-				// Add min, max, and median length calculations
 				minLength, maxLength, medianLength := calculateLengthStats(lengths)
 				output += fmt.Sprintf(color.MagentaString("Min Sequence Length")+": %d\n", minLength)
 				output += fmt.Sprintf(color.MagentaString("Max Sequence Length")+": %d\n", maxLength)
@@ -174,8 +177,6 @@ func NewParseCmd() *cobra.Command {
 				if outputFile != "" {
 					plainOutput += fmt.Sprintf("Total Sequence Length: %d\n", totalLength)
 					plainOutput += fmt.Sprintf("Average Sequence Length: %.2f\n", averageLength)
-					// Add min, max, and median length calculations
-					minLength, maxLength, medianLength := calculateLengthStats(lengths)
 					plainOutput += fmt.Sprintf("Min Sequence Length: %d\n", minLength)
 					plainOutput += fmt.Sprintf("Max Sequence Length: %d\n", maxLength)
 					plainOutput += fmt.Sprintf("Median Sequence Length: %.2f\n", medianLength)
