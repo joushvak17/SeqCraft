@@ -68,6 +68,18 @@ func NewParseCmd() *cobra.Command {
 						nucleotideFreq = true
 					}
 				}
+				var outputFilePrompt string
+				outputPrompt := &survey.Input{
+					Message: "Enter output file (leave blank for no output file):",
+				}
+				err = survey.AskOne(outputPrompt, &outputFilePrompt)
+				if err != nil {
+					fmt.Printf("Prompt failed %v\n", err)
+					return
+				}
+				if outputFilePrompt != "" {
+					outputFile = outputFilePrompt
+				}
 			}
 
 			// Parse the FASTA file
@@ -91,6 +103,7 @@ func NewParseCmd() *cobra.Command {
 				plainOutput += fmt.Sprintf("Number of Records Parsed: %d\n", len(records))
 			}
 
+			// Initialize variables for aggregate statistics
 			totalLength := 0
 			totalGCContent := 0.0
 			totalNucleotideFreq := make(map[rune]float64)
