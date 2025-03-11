@@ -26,3 +26,6 @@ go.work.sum
 
 # FASTA files for testing
 *.fasta
+
+# TODO files
+TODO.txt
