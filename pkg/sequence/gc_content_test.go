@@ -14,10 +14,11 @@ func TestGCContent(t *testing.T) {
 		{"Empty sequence", "", 0.0},
 		{"Mixed case", "ATgc", 50.0},
 		{"Non-standard characters", "ATN-", 0.0},
-		{"Long sequence", "ATGCATGCATGCATGC", 55.0},
+		{"Long sequence", "ATGCATGCATGCATGC", 50.0},
 	}
 
 	for _, test := range tests {
+		// TODO: Consider if calling the name of the test is necessary.
 		t.Run(test.name, func(t *testing.T) {
 			result := GCContent(test.seq)
 			if result != test.expected {

@@ -10,8 +10,8 @@ func GCContent(seq string) float64 {
 		return 0.0
 	}
 
-	gcCount := 0
-	for i := range len(seq) {
+	gcCount, seqBytes := 0, []byte(seq)
+	for i := range len(seqBytes) {
 		switch seq[i] {
 		case 'g', 'c', 'G', 'C':
 			gcCount++
