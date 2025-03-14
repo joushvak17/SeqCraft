@@ -2,28 +2,32 @@ package sequence
 
 // ReverseComplement returns the reverse complement of a DNA sequence.
 func ReverseComplement(seq string) string {
-	complement := map[rune]rune{
-		'A': 'T',
-		'T': 'A',
-		'C': 'G',
-		'G': 'C',
-		'a': 't',
-		't': 'a',
-		'c': 'g',
-		'g': 'c',
-	}
+	reverseComp := make([]byte, len(seq))
 
-	// Create a slice to hold the reverse complement
-	reverseComp := make([]rune, len(seq))
-
-	// Iterate over the sequence in reverse order
-	for i, nucleotide := range seq {
-		if comp, ok := complement[nucleotide]; ok {
-			reverseComp[len(seq)-1-i] = comp
-		} else {
-			// If the nucleotide is not recognized, keep it as is
-			reverseComp[len(seq)-1-i] = nucleotide
+	for i := range len(seq) {
+		var comp byte
+		switch seq[len(seq)-1-i] {
+		case 'A':
+			comp = 'T'
+		case 'T':
+			comp = 'A'
+		case 'C':
+			comp = 'G'
+		case 'G':
+			comp = 'C'
+		case 'a':
+			comp = 't'
+		case 't':
+			comp = 'a'
+		case 'c':
+			comp = 'g'
+		case 'g':
+			comp = 'c'
+		default:
+			comp = seq[len(seq)-1-i]
 		}
+
+		reverseComp[i] = comp
 	}
 
 	return string(reverseComp)
