@@ -18,12 +18,9 @@ func TestGCContent(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		// TODO: Consider if calling the name of the test is necessary.
-		t.Run(test.name, func(t *testing.T) {
-			result := GCContent(test.seq)
-			if result != test.expected {
-				t.Errorf("GCContent(%q) = %.2f, want %.2f", test.seq, result, test.expected)
-			}
-		})
+		result := GCContent(test.seq)
+		if result != test.expected {
+			t.Errorf("GCContent(%q) = %.2f, want %.2f", test.seq, result, test.expected)
+		}
 	}
 }
