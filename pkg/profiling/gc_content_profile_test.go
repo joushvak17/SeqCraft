@@ -21,6 +21,9 @@ func TestGCContentProfile(t *testing.T) {
 	defer pprof.StopCPUProfile()
 
 	for i := 0; i < 1000000; i++ {
-		sequence.GCContent("ATGCATGCATGCATGC")
+		gcContent := sequence.GCContent("ATGCATGCATGCATGC")
+		if gcContent == 0.0 {
+			t.Error("GCContent returned 0.0 unexpectedly")
+		}
 	}
 }
