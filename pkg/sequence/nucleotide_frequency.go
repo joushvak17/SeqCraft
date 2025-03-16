@@ -1,6 +1,6 @@
 package sequence
 
-// NucleotideFrequency calculates the frequency of each nucleotide in a sequence.
+// NucleotideFrequency calculates the frequency of each relevant nucleotide in a sequence.
 func NucleotideFrequency(seq string) map[rune]float64 {
 	if len(seq) == 0 {
 		return map[rune]float64{}
