@@ -32,9 +32,9 @@ jobs:
         with:
           name: binaries
           path: |
-            seqcraft
-            seqcraft
-            seqcraft.exe
+            linux/seqcraft
+            macOs/seqcraft
+            windows/seqcraft.exe
 
   create-release:
     runs-on: ubuntu-latest
@@ -63,6 +63,6 @@ jobs:
             - macOS: seqcraft
             - Windows: seqcraft.exe
           files: |
-            binaries/seqcraft
-            binaries/seqcraft
-            binaries/seqcraft.exe
+            binaries/linux/seqcraft
+            binaries/macOs/seqcraft
+            binaries/windows/seqcraft.exe
