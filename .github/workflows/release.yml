@@ -53,11 +53,6 @@ jobs:
           name: binaries
           path: ./binaries
 
-      - name: Rename binaries for release
-        run: |
-          mv ./binaries/linux/seqcraft-linux ./binaries/linux/seqcraft
-          mv ./binaries/macOs/seqcraft-macos ./binaries/macOs/seqcraft
-
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         env:
@@ -67,10 +62,10 @@ jobs:
           name: Release ${{ github.ref }}
           body: |
             Release ${{ github.ref }}
-            - Linux: binaries/linux/seqcraft
-            - macOS: binaries/macOs/seqcraft
+            - Linux: binaries/linux/seqcraft-linux
+            - macOS: binaries/macOs/seqcraft-macos
             - Windows: binaries/windows/seqcraft.exe
           files: |
-            binaries/linux/seqcraft
-            binaries/macOs/seqcraft
+            binaries/linux/seqcraft-linux
+            binaries/macOs/seqcraft-macos
             binaries/windows/seqcraft.exe
