@@ -56,7 +56,7 @@ func Parse(filename string) ([]Record, error) {
 			// Append sequence data
 			currentRecord.Sequence += line
 		} else {
-			return nil, errors.New("Invalid FASTA format: sequence data without header")
+			return nil, errors.New("Invalid FASTA format: Sequence data without header")
 		}
 	}
 
