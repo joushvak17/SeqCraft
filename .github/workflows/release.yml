@@ -21,12 +21,12 @@ jobs:
       - name: Build Linux binary
         run: |
           mkdir -p binaries/linux
-          GOOS=linux GOARCH=amd64 go build -o binaries/linux/seqcraft cmd/app/main.go
+          GOOS=linux GOARCH=amd64 go build -o binaries/linux/seqcraft-linux cmd/app/main.go
 
       - name: Build macOS binary
         run: |
           mkdir -p binaries/macOs
-          GOOS=darwin GOARCH=amd64 go build -o binaries/macOs/seqcraft cmd/app/main.go
+          GOOS=darwin GOARCH=amd64 go build -o binaries/macOs/seqcraft-macos cmd/app/main.go
 
       - name: Build Windows binary
         run: |
@@ -53,6 +53,11 @@ jobs:
           name: binaries
           path: ./binaries
 
+      - name: Rename binaries for release
+        run: |
+          mv ./binaries/linux/seqcraft-linux ./binaries/linux/seqcraft
+          mv ./binaries/macOs/seqcraft-macos ./binaries/macOs/seqcraft
+
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         env:
@@ -62,9 +67,9 @@ jobs:
           name: Release ${{ github.ref }}
           body: |
             Release ${{ github.ref }}
-            - Linux: seqcraft
-            - macOS: seqcraft
-            - Windows: seqcraft.exe
+            - Linux: binaries/linux/seqcraft
+            - macOS: binaries/macOs/seqcraft
+            - Windows: binaries/windows/seqcraft.exe
           files: |
             binaries/linux/seqcraft
             binaries/macOs/seqcraft
