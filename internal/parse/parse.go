@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/AlecAivazis/survey/v2"
+	"github.com/briandowns/spinner"
 	"github.com/fatih/color"
 	"github.com/joushvak17/SeqCraft/pkg/parse"
 	"github.com/joushvak17/SeqCraft/pkg/sequence"
@@ -82,16 +83,21 @@ func NewParseCmd() *cobra.Command {
 				}
 			}
 
+			// Start the spinner
+			s := spinner.New(spinner.CharSets[11], 100*time.Millisecond)
+			s.Suffix = " Processing..."
+			s.Start()
+
 			// Parse the FASTA file
 			records, err := parse.Parse(filename)
 			if err != nil {
-				fmt.Printf("Error parsing FASTA file: %v\n", err)
+				fmt.Printf("\nError parsing FASTA file: %v\n", err)
 				return
 			}
 
 			// Get the current date/time and create the output string
 			currentTime := time.Now().Format("January 2, 2006 3:04 PM")
-			output := color.GreenString("SeqCraft") + color.YellowString(" Parse Output(s):\n")
+			output := color.GreenString("\nSeqCraft") + color.YellowString(" Parse Output(s):\n")
 			output += fmt.Sprintf("Date and Time: %s\n", currentTime)
 			output += fmt.Sprintf("Number of Records Parsed: %d\n", len(records))
 
