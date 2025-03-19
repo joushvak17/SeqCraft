@@ -82,6 +82,15 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: binaries
+      
+      - name: Verify download
+        run: |
+          if (Test-Path -Path ./binaries/windows/seqcraft.exe) {
+          Write-Host "Windows binary found."
+          } else {
+          Write-Error "Windows binary not found!"
+          exit 1
+          }
 
       - name: Install Chocolatey
         run: |
