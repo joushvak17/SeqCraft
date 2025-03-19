@@ -118,4 +118,4 @@ jobs:
       - name: Publish Chocolatey package
         run: |
           cd seqcraft
-          choco push seqcraft.${{ steps.version.outputs.version }}.nupkg --api-key=${{ secrets.CHOCOLATEY_API_KEY }}
+          choco push seqcraft.${{ steps.version.outputs.version }}.nupkg --source="'https://push.chocolatey.org/'" --api-key=${{ secrets.CHOCOLATEY_API_KEY }}
