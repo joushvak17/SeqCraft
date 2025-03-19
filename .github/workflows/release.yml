@@ -69,3 +69,20 @@ jobs:
             binaries/linux/seqcraft-linux
             binaries/macOs/seqcraft-macos
             binaries/windows/seqcraft.exe
+    
+  publish-chocolatey:
+    runs-on: windows-latest
+    needs: create-release
+    if: github.actor == 'joushvak17'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: binaries
+
+      - name: Install Chocolatey
+        run: |
+          Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
