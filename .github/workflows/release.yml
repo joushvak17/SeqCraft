@@ -87,10 +87,10 @@ jobs:
       - name: Verify download
         run: |
           if (Test-Path -Path ./binaries/windows/seqcraft.exe) {
-          Write-Host "Windows binary found."
+            Write-Host "Windows binary found."
           } else {
-          Write-Error "Windows binary not found!"
-          exit 1
+            Write-Error "Windows binary not found!"
+            exit 1
           }
 
       - name: Install Chocolatey
@@ -100,25 +100,23 @@ jobs:
       - name: Create Chocolatey package
         run: |
           # Create the package structure
-          New-Item -ItemType Directory -Path mytool
-          cd mytool
           choco new seqcraft --version=${{ github.ref_name }}
 
-          # Copy the Windows binary to the package directory
-          Copy-Item ../binaries/windows/seqcraft.exe -Destination tools/seqcraft.exe
+          # Copy the Windows binary to the tools directory
+          Copy-Item ./binaries/windows/seqcraft.exe -Destination ./seqcraft/tools/
 
           # Update the chocolateyInstall.ps1 script
-          (Get-Content tools\chocolateyInstall.ps1).replace('$url = ""', '$url = "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/seqcraft.exe"') | Set-Content tools\chocolateyInstall.ps1
+          (Get-Content ./seqcraft/tools/chocolateyInstall.ps1).replace('$url = ""', '$url = "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/seqcraft.exe"') | Set-Content ./seqcraft/tools/chocolateyInstall.ps1
 
           # Update the nuspec file
-          (Get-Content seqcraft.nuspec).replace('<version>$version$</version>', '<version>${{ github.ref_name }}</version>') | Set-Content seqcraft.nuspec
+          (Get-Content ./seqcraft/seqcraft.nuspec).replace('<version>$version$</version>', '<version>${{ github.ref_name }}</version>') | Set-Content ./seqcraft/seqcraft.nuspec
 
       - name: Pack Chocolatey package
         run: |
-          cd mytool
+          cd seqcraft
           choco pack
 
       - name: Publish Chocolatey package
         run: |
-          cd mytool
+          cd seqcraft
           choco push seqcraft.${{ github.ref_name }}.nupkg --api-key=${{ secrets.CHOCOLATEY_API_KEY }}
