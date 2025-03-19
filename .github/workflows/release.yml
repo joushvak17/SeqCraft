@@ -82,7 +82,49 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: binaries
+          path: ./binaries
+      
+      - name: Verify download
+        run: |
+          if (Test-Path -Path ./binaries/windows/seqcraft.exe) {
+            Write-Host "Windows binary found."
+          } else {
+            Write-Error "Windows binary not found!"
+            exit 1
+          }
 
       - name: Install Chocolatey
         run: |
           Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          # Strip the 'v' from the tag (e.g., v0.1.6 → 0.1.6)
+          $version = "${{ github.ref_name }}".TrimStart('v')
+          echo "Extracted version: $version"
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Create Chocolatey package
+        run: |
+          # Create the package structure
+          choco new seqcraft --version=${{ steps.version.outputs.version }}
+
+          # Copy the Windows binary to the tools directory
+          Copy-Item ./binaries/windows/seqcraft.exe -Destination ./seqcraft/tools/
+
+          # Update the chocolateyInstall.ps1 script
+          (Get-Content ./seqcraft/tools/chocolateyInstall.ps1).replace('$url = ""', '$url = "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/seqcraft.exe"') | Set-Content ./seqcraft/tools/chocolateyInstall.ps1
+
+          # Update the nuspec file
+          (Get-Content ./seqcraft/seqcraft.nuspec).replace('<version>$version$</version>', '<version>${{ steps.version.outputs.version }}</version>') | Set-Content ./seqcraft/seqcraft.nuspec
+
+      - name: Pack Chocolatey package
+        run: |
+          cd seqcraft
+          choco pack
+
+      - name: Publish Chocolatey package
+        run: |
+          cd seqcraft
+          choco push seqcraft.${{ steps.version.outputs.version }}.nupkg --api-key=${{ secrets.CHOCOLATEY_API_KEY }}
