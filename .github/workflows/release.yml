@@ -82,6 +82,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: binaries
+          path: ./binaries
       
       - name: Verify download
         run: |
