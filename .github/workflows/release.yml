@@ -86,3 +86,29 @@ jobs:
       - name: Install Chocolatey
         run: |
           Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+      - name: Create Chocolatey package
+        run: |
+          # Create the package structure
+          New-Item -ItemType Directory -Path mytool
+          cd mytool
+          choco new seqcraft --version=${{ github.ref_name }}
+
+          # Copy the Windows binary to the package directory
+          Copy-Item ../binaries/windows/seqcraft.exe -Destination tools/seqcraft.exe
+
+          # Update the chocolateyInstall.ps1 script
+          (Get-Content tools\chocolateyInstall.ps1).replace('$url = ""', '$url = "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/seqcraft.exe"') | Set-Content tools\chocolateyInstall.ps1
+
+          # Update the nuspec file
+          (Get-Content seqcraft.nuspec).replace('<version>$version$</version>', '<version>${{ github.ref_name }}</version>') | Set-Content seqcraft.nuspec
+
+      - name: Pack Chocolatey package
+        run: |
+          cd mytool
+          choco pack
+
+      - name: Publish Chocolatey package
+        run: |
+          cd mytool
+          choco push seqcraft.${{ github.ref_name }}.nupkg --api-key=${{ secrets.CHOCOLATEY_API_KEY }}
