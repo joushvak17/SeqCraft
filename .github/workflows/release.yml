@@ -70,52 +70,53 @@ jobs:
             binaries/macOs/seqcraft-macos
             binaries/windows/seqcraft.exe
     
-  publish-chocolatey:
-    runs-on: windows-latest
-    needs: create-release
-    if: github.actor == 'joushvak17'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  # TODO: Work on the Chocolatey package using the following steps
+  # publish-chocolatey:
+  #   runs-on: windows-latest
+  #   needs: create-release
+  #   if: github.actor == 'joushvak17'
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Download binaries
-        uses: actions/download-artifact@v4
-        with:
-          name: binaries
-          path: ./binaries
+  #     - name: Download binaries
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: binaries
+  #         path: ./binaries
 
-      - name: Install Chocolatey
-        run: |
-          Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+  #     - name: Install Chocolatey
+  #       run: |
+  #         Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
-      - name: Extract version from tag
-        id: version
-        run: |
-          # Strip the 'v' from the tag (e.g., v0.1.6 → 0.1.6)
-          $version = "${{ github.ref_name }}".TrimStart('v')
-          echo "Extracted version: $version"
-          echo "version=$version" >> $env:GITHUB_OUTPUT
+  #     - name: Extract version from tag
+  #       id: version
+  #       run: |
+  #         # Strip the 'v' from the tag (e.g., v0.1.6 → 0.1.6)
+  #         $version = "${{ github.ref_name }}".TrimStart('v')
+  #         echo "Extracted version: $version"
+  #         echo "version=$version" >> $env:GITHUB_OUTPUT
 
-      - name: Create Chocolatey package
-        run: |
-          # Create the package structure
-          choco new seqcraft --version=${{ steps.version.outputs.version }}
+  #     - name: Create Chocolatey package
+  #       run: |
+  #         # Create the package structure
+  #         choco new seqcraft --version=${{ steps.version.outputs.version }}
 
-          # Copy the Windows binary to the tools directory
-          Copy-Item ./binaries/windows/seqcraft.exe -Destination ./seqcraft/tools/
+  #         # Copy the Windows binary to the tools directory
+  #         Copy-Item ./binaries/windows/seqcraft.exe -Destination ./seqcraft/tools/
 
-          # Update the chocolateyInstall.ps1 script
-          (Get-Content ./seqcraft/tools/chocolateyInstall.ps1).replace('$url = ""', '$url = "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/seqcraft.exe"') | Set-Content ./seqcraft/tools/chocolateyInstall.ps1
+  #         # Update the chocolateyInstall.ps1 script
+  #         (Get-Content ./seqcraft/tools/chocolateyInstall.ps1).replace('$url = ""', '$url = "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/seqcraft.exe"') | Set-Content ./seqcraft/tools/chocolateyInstall.ps1
 
-          # Update the nuspec file
-          (Get-Content ./seqcraft/seqcraft.nuspec).replace('<version>$version$</version>', '<version>${{ steps.version.outputs.version }}</version>') | Set-Content ./seqcraft/seqcraft.nuspec
+  #         # Update the nuspec file
+  #         (Get-Content ./seqcraft/seqcraft.nuspec).replace('<version>$version$</version>', '<version>${{ steps.version.outputs.version }}</version>') | Set-Content ./seqcraft/seqcraft.nuspec
 
-      - name: Pack Chocolatey package
-        run: |
-          cd seqcraft
-          choco pack
+  #     - name: Pack Chocolatey package
+  #       run: |
+  #         cd seqcraft
+  #         choco pack
 
-      - name: Publish Chocolatey package
-        run: |
-          cd seqcraft
-          choco push seqcraft.${{ steps.version.outputs.version }}.nupkg --source="'https://push.chocolatey.org/'" --api-key=${{ secrets.CHOCOLATEY_API_KEY }}
+  #     - name: Publish Chocolatey package
+  #       run: |
+  #         cd seqcraft
+  #         choco push seqcraft.${{ steps.version.outputs.version }}.nupkg --source="'https://push.chocolatey.org/'" --api-key=${{ secrets.CHOCOLATEY_API_KEY }}
