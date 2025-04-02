@@ -2,11 +2,11 @@ package parse
 
 import (
 	"fmt"
+	"log/slog"
 	"os"
 	"sort"
 	"strings"
 	"time"
-	"log/slog"
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/briandowns/spinner"
