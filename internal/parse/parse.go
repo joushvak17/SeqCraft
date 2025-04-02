@@ -6,6 +6,7 @@ import (
 	"sort"
 	"strings"
 	"time"
+	"log/slog"
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/briandowns/spinner"
@@ -36,11 +37,11 @@ func NewParseCmd() *cobra.Command {
 
 			// Input validation, check if the file exists and is a valid FASTA file
 			if _, err := os.Stat(filename); os.IsNotExist(err) {
-				fmt.Printf("Error: File %s does not exist\n", filename)
+				slog.Error("File does not exist", slog.String("filename", filename))
 				return
 			}
 			if !strings.HasSuffix(filename, ".fasta") && !strings.HasSuffix(filename, ".fa") {
-				fmt.Printf("Error: File %s is not a valid FASTA file\n", filename)
+				slog.Error("File is not a valid FASTA file", slog.String("filename", filename))
 				return
 			}
 
