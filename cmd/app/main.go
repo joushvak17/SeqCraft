@@ -8,6 +8,11 @@ import (
 )
 
 func main() {
+	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+		Level: slog.LevelInfo,
+	}))
+	slog.SetDefault(logger)
+
 	if err := cli.Execute(); err != nil {
 		slog.Error("Error executing CLI command", "error", err)
 		os.Exit(1)
