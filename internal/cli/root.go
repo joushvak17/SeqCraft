@@ -12,6 +12,7 @@ var rootCmd = &cobra.Command{
 	Long:  color.GreenString("SeqCraft") + " - CLI tool for sequence analysis, alignment, and structure analysis, all accessible through an easy-to-use command line interface.",
 }
 
+// Execute runs the root command of the SeqCraft CLI tool.
 func Execute() error {
 	return rootCmd.Execute()
 }
