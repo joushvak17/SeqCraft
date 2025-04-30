@@ -32,7 +32,6 @@ func NewParseCmd() *cobra.Command {
 		Long:  "Parse and analyze a FASTA file, including sequence length, GC content, reverse complement, and nucleotide frequency.",
 		Args:  cobra.ExactArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
-			// Configure the logger
 			logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
 				Level: slog.LevelInfo,
 			}))
@@ -176,7 +175,6 @@ func NewParseCmd() *cobra.Command {
 			// Nucleotide frequency
 			if nucleotideFreq {
 				output += "Total Nucleotide Frequency:\n"
-
 				for nucleotide, count := range totalNucleotideFreq {
 					output += fmt.Sprintf("%s: %.4f\n", string(nucleotide), count)
 				}
@@ -208,7 +206,7 @@ func NewParseCmd() *cobra.Command {
 }
 
 // Calculates the minimum, maximum, and median lengths from a slice of lengths.
-func calculateLengthStats(lengths []int) (min, max int, median float64) {
+func calculateLengthStats(lengths []int) (min int, max int, median float64) {
 	if len(lengths) == 0 {
 		return 0, 0, 0
 	}
