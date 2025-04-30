@@ -54,7 +54,7 @@ func NewParseCmd() *cobra.Command {
 				}
 				err := survey.AskOne(prompt, &selectedOptions)
 				if err != nil {
-					fmt.Printf("Prompt failed %v\n", err)
+					slog.Error("Prompt failed", slog.String("error", err.Error()))
 					return
 				}
 				for _, option := range selectedOptions {
@@ -75,7 +75,7 @@ func NewParseCmd() *cobra.Command {
 				}
 				err = survey.AskOne(outputPrompt, &outputFilePrompt)
 				if err != nil {
-					fmt.Printf("Prompt failed %v\n", err)
+					slog.Error("Prompt failed", slog.String("error", err.Error()))
 					return
 				}
 				if outputFilePrompt != "" {
