@@ -145,11 +145,9 @@ func NewParseCmd() *cobra.Command {
 				// Nucleotide frequency
 				if nucleotideFreq {
 					freq := sequence.NucleotideFrequency(record.Sequence)
-					for nucleotide, count := range freq {
-						totalNucleotideFreq[nucleotide] += count
-					}
 					output += "Nucleotide Frequency:\n"
 					for nucleotide, count := range freq {
+						totalNucleotideFreq[nucleotide] += count
 						output += fmt.Sprintf("%s: %.4f\n", string(nucleotide), count)
 					}
 				}
