@@ -9,7 +9,7 @@ func GCContent(seq string) float64 {
 	gcCount := 0
 
 	// Use a standard for loop for index-based access
-	for i := 0; i < len(seq); i++ {
+	for i := range len(seq) {
 		switch seq[i] {
 		case 'g', 'c', 'G', 'C':
 			gcCount++
