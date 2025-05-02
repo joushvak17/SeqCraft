@@ -5,7 +5,6 @@ go 1.24.0
 require (
 	github.com/AlecAivazis/survey/v2 v2.3.7
 	github.com/briandowns/spinner v1.23.2
-	github.com/fatih/color v1.18.0
 	github.com/spf13/cobra v1.9.1
 )
 
@@ -17,6 +16,7 @@ require (
 )
 
 require (
+	github.com/fatih/color v1.18.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
