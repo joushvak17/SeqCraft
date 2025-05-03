@@ -13,18 +13,20 @@
   </p>
 </div>
 
-## Installation
-The following shows the various ways that SeqCraft can be installed (currently there is installation support only for binary releases and from source):
+## ⚙️ Installation
+The following shows the various ways that SeqCraft can be installed (currently there is installation support only from the binary releases and building directly from the source).
 
 ### Binary Releases
-Download pre-compiled binaries from the [releases pages](https://github.com/joushvak17/SeqCraft/releases)
+Download pre-compiled binaries from the [releases page](https://github.com/joushvak17/SeqCraft/releases).
 
 ### From Source
+If you want to build directly from the source then you can do the following:
 ```
 git clone https://github.com/joushvak17/SeqCraft.git
 cd SeqCraft
-go build
+go build .\cmd\app\main.go
 ```
+Then, you can call the `main.exe` output file to run the program.
 
 ## 📄	License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
