@@ -12,6 +12,13 @@
         <img src="https://img.shields.io/github/v/release/joushvak17/SeqCraft" alt="Release Version">
       </a>
       <br>
+      <a href="https://github.com/joushvak17/SeqCraft/issues">
+        <img src="https://img.shields.io/github/issues/joushvak17/SeqCraft" alt="Issues">
+      </a>
+      <a href="https://goreportcard.com/report/github.com/joushvak17/SeqCraft">
+        <img src="https://goreportcard.com/badge/github.com/joushvak17/SeqCraft" alt="Go Report Card">
+      </a>
+      <br>
       A CLI bioinformatics toolkit written in Go that provides researchers with efficient tools for FASTA file analysis, including sequence parsing, alignment, and structure prediction.
     </strong>
   </p>
