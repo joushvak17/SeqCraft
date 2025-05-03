@@ -13,6 +13,18 @@
   </p>
 </div>
 
-## License
+## Installation
+The following shows the various ways that SeqCraft can be installed (currently there is installation support only for binary releases and from source):
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+### Binary Releases
+Download pre-compiled binaries from the [releases pages](https://github.com/joushvak17/SeqCraft/releases)
+
+### From Source
+```
+git clone https://github.com/joushvak17/SeqCraft.git
+cd SeqCraft
+go build
+```
+
+## 📄	License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
