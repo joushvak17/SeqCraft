@@ -11,7 +11,6 @@
       <a href="https://github.com/joushvak17/SeqCraft/releases">
         <img src="https://img.shields.io/github/v/release/joushvak17/SeqCraft" alt="Release Version">
       </a>
-      <br>
       <a href="https://github.com/joushvak17/SeqCraft/issues">
         <img src="https://img.shields.io/github/issues/joushvak17/SeqCraft" alt="Issues">
       </a>
