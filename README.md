@@ -13,6 +13,10 @@
   </p>
 </div>
 
+## 📑 Table of Contents
+- [Installation](#️-installation)
+- [License](#license)
+
 ## ⚙️ Installation
 The following shows the various ways that SeqCraft can be installed (currently there is installation support only from the binary releases and building directly from the source).
 
