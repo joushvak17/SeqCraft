@@ -15,6 +15,7 @@
 
 ## 📑 Table of Contents
 - [Installation](#️-installation)
+- [Roadmap](#️-roadmap)
 - [License](#license)
 
 ## ⚙️ Installation
@@ -31,6 +32,14 @@ cd SeqCraft
 go build .\cmd\app\main.go
 ```
 Then, you can call the `main.exe` output file to run the program.
+
+## 🗺️ Roadmap
+The following shows the features that hopefully will incorporated in the future:
+- Sequence Translation: Translate DNA/RNA sequences to protein sequences
+- Motif Search: Search for specific motifs in sequences
+- Sequence Alignment: Pairwise sequence alignment and support for MSA
+- Secondary Structure Prediction: Predict secondary structure of protein sequences
+- Phylogenetic Analysis: Construct phylogenetic trees from sequence data
 
 ## 📄	License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
