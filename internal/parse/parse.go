@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
+	"sort"
 	"strings"
 	"time"
 
@@ -11,8 +12,6 @@ import (
 	"github.com/briandowns/spinner"
 	"github.com/joushvak17/SeqCraft/pkg/parse"
 	"github.com/joushvak17/SeqCraft/pkg/sequence"
-	"github.com/joushvak17/SeqCraft/pkg/utils"
-	"github.com/joushvak17/SeqCraft/pkg/utils/stats"
 	"github.com/spf13/cobra"
 )
 
@@ -161,7 +160,7 @@ func NewParseCmd() *cobra.Command {
 				averageLength := float64(totalLength) / float64(len(records))
 				output += fmt.Sprintf("Total Sequence Length: %d\n", totalLength)
 				output += fmt.Sprintf("Average Sequence Length: %.2f\n", averageLength)
-				minLength, maxLength, medianLength := utils.CalculateLengthStats(lengths)
+				minLength, maxLength, medianLength := calculateLengthStats(lengths)
 				output += fmt.Sprintf("Min Sequence Length: %d\n", minLength)
 				output += fmt.Sprintf("Max Sequence Length: %d\n", maxLength)
 				output += fmt.Sprintf("Median Sequence Length: %.2f\n", medianLength)
@@ -204,4 +203,20 @@ func NewParseCmd() *cobra.Command {
 	parseCmd.Flags().StringVarP(&outputFile, "output", "o", "", "Output file to save results")
 
 	return parseCmd
+}
+
+// Calculates the minimum, maximum, and median lengths from a slice of lengths.
+func calculateLengthStats(lengths []int) (min int, max int, median float64) {
+	if len(lengths) == 0 {
+		return 0, 0, 0
+	}
+	sort.Ints(lengths)
+	min = lengths[0]
+	max = lengths[len(lengths)-1]
+	if len(lengths)%2 == 0 {
+		median = float64(lengths[len(lengths)/2-1]+lengths[len(lengths)/2]) / 2
+	} else {
+		median = float64(lengths[len(lengths)/2])
+	}
+	return min, max, median
 }
