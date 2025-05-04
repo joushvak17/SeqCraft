@@ -90,7 +90,7 @@ func NewParseCmd() *cobra.Command {
 
 			// Start the spinner
 			s := spinner.New(spinner.CharSets[11], 100*time.Millisecond)
-			s.Suffix = " Processing..."
+			s.Suffix = " Processing ... "
 			s.Start()
 
 			// Parse the FASTA file
@@ -184,12 +184,15 @@ func NewParseCmd() *cobra.Command {
 			if outputFile != "" {
 				err := os.WriteFile(outputFile, []byte(output), 0644)
 				if err != nil {
-					fmt.Printf("Error writing to file: %v\n", err)
+					slog.Error("Error writing to file", slog.String("outputFile", outputFile), slog.String("error", err.Error()))
+					s.Stop()
 				} else {
 					fmt.Printf("Output written to %s\n", outputFile)
+					s.Stop()
 				}
 			} else {
-				fmt.Print(output)
+				fmt.Println(output)
+				s.Stop()
 			}
 		},
 	}
