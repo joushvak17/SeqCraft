@@ -25,7 +25,7 @@ go.work.sum
 .env
 
 # FASTA files for testing
-*.fasta
+/data
 
 # TODO files
 TODO.txt
