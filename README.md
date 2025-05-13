@@ -19,7 +19,8 @@
 - [License](#license)
 
 ## ⚙️ Installation
-The following shows the various ways that SeqCraft can be installed (currently there is installation support only from the binary releases and building directly from the source).
+> [!NOTE]
+> The following shows the various ways that SeqCraft can be installed (currently there is installation support only from the binary releases and building directly from the source).
 
 ### Binary Releases
 Download pre-compiled binaries from the [releases page](https://github.com/joushvak17/SeqCraft/releases).
