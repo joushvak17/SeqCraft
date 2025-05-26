@@ -14,33 +14,42 @@
 </div>
 
 ## 📑 Table of Contents
+
 - [Installation](#️-installation)
 - [Roadmap](#️-roadmap)
 - [License](#license)
 
 ## ⚙️ Installation
+>
 > [!NOTE]
 > The following shows the various ways that SeqCraft can be installed (currently there is installation support only from the binary releases and building directly from the source).
 
 ### Binary Releases
+
 Download pre-compiled binaries from the [releases page](https://github.com/joushvak17/SeqCraft/releases).
 
 ### From Source
+
 If you want to build directly from the source then you can do the following:
+
 ```
 git clone https://github.com/joushvak17/SeqCraft.git
 cd SeqCraft
 go build .\cmd\app\main.go
 ```
+
 Then, you can call the `main.exe` output file to run the program.
 
 ## 🗺️ Roadmap
+
 The following shows the features that hopefully will incorporated in the future:
+
 - Sequence Translation: Translate DNA/RNA sequences to protein sequences
 - Motif Search: Search for specific motifs in sequences
 - Sequence Alignment: Pairwise sequence alignment and support for MSA
 - Secondary Structure Prediction: Predict secondary structure of protein sequences
 - Phylogenetic Analysis: Construct phylogenetic trees from sequence data
 
-## 📄	License
+## 📄 License
+
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
