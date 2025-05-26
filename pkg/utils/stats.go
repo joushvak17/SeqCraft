@@ -9,8 +9,7 @@ func CalculateLengthStats(lengths []int) (min int, max int, median float64) {
 		return 0, 0, 0
 	}
 	sort.Ints(lengths)
-	min = lengths[0]
-	max = lengths[len(lengths)-1]
+	min, max = lengths[0], lengths[len(lengths)-1]
 	if len(lengths)%2 == 0 {
 		median = float64(lengths[len(lengths)/2-1]+lengths[len(lengths)/2]) / 2
 	} else {

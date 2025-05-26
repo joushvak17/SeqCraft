@@ -1,58 +1,66 @@
 package sequence
 
+// Define these as package-level constants to avoid recreating them on each function call
+var validBase = [256]byte{
+	'A': 1, 'T': 1, 'G': 1, 'C': 1, 'U': 1, 'N': 1,
+	'a': 1, 't': 1, 'g': 1, 'c': 1, 'u': 1, 'n': 1,
+}
+
+var upperCase = [256]byte{
+	'a': 'A', 't': 'T', 'g': 'G', 'c': 'C', 'n': 'N', 'u': 'U',
+}
+
+// Common nucleotide bases we care about
+var nucleotideBases = [6]byte{'A', 'C', 'G', 'T', 'U', 'N'}
+
 // NucleotideFrequency calculates the frequency of each relevant nucleotide in a sequence.
 func NucleotideFrequency(seq string) map[rune]float64 {
 	if len(seq) == 0 {
 		return map[rune]float64{}
 	}
 
-	// Use byte array for faster access
-	// Index corresponds to ASCII value of the base
-	var validBase [256]byte
-	validBase['A'] = 1
-	validBase['T'] = 1
-	validBase['G'] = 1
-	validBase['C'] = 1
-	validBase['U'] = 1
-	validBase['N'] = 1
-	validBase['a'] = 1
-	validBase['t'] = 1
-	validBase['g'] = 1
-	validBase['c'] = 1
-	validBase['u'] = 1
-	validBase['n'] = 1
-
-	// Storing uppercase bases for case-insensitive comparison
-	var upperCase [256]byte
-	upperCase['a'] = 'A'
-	upperCase['t'] = 'T'
-	upperCase['g'] = 'G'
-	upperCase['c'] = 'C'
-	upperCase['n'] = 'N'
-	upperCase['n'] = 'N'
-	upperCase['u'] = 'U'
-
-	// Pre-allocate map with all possible bases
-	freq := make(map[rune]float64, 6)
+	// Use a smaller array for just the bases we care about (to reduce allocation cost)
+	// Index 0=A, 1=C, 2=G, 3=T, 4=U, 5=N
+	counts := [6]int{}
 	validBases := 0
 
-	// Process as byte array for faster access
-	for i := range len(seq) {
+	// Direct string access with byte conversion is faster
+	for i := 0; i < len(seq); i++ {
 		base := seq[i]
 		if validBase[base] == 1 {
 			if base >= 'a' && base <= 'z' {
 				base = upperCase[base]
 			}
-			freq[rune(base)]++
+
+			// Map the base to an index in our small array
+			switch base {
+			case 'A':
+				counts[0]++
+			case 'C':
+				counts[1]++
+			case 'G':
+				counts[2]++
+			case 'T':
+				counts[3]++
+			case 'U':
+				counts[4]++
+			case 'N':
+				counts[5]++
+			}
 			validBases++
 		}
 	}
 
-	// Calculate frequencies
-	total := float64(validBases)
-	if total > 0 {
-		for base, count := range freq {
-			freq[base] = count / total * 100
+	// Create final result map
+	freq := make(map[rune]float64, 6)
+
+	if validBases > 0 {
+		total := float64(validBases)
+		// We know exactly which bases to process now
+		for i, count := range counts {
+			if count > 0 {
+				freq[rune(nucleotideBases[i])] = float64(count) / total * 100
+			}
 		}
 	}
 
