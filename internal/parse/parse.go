@@ -37,6 +37,9 @@ func NewParseCmd() *cobra.Command {
 			}))
 			slog.SetDefault(logger)
 
+			// Start the timer
+			startTime := time.Now()
+
 			filename := args[0]
 
 			// Input validation, check if the file exists and is a valid FASTA file
@@ -93,6 +96,9 @@ func NewParseCmd() *cobra.Command {
 			s.Suffix = " Processing ... "
 			s.Start()
 
+			// Prepare the output string
+			output := "\nSeqCraft Parse Output(s):\n"
+
 			// Parse the FASTA file
 			records, err := parse.Parse(filename)
 			if err != nil {
@@ -100,13 +106,6 @@ func NewParseCmd() *cobra.Command {
 				s.Stop()
 				return
 			}
-
-			// Get the current date/time and create the output string
-			currentTime := time.Now().Format("January 2, 2006 3:04 PM")
-			output := "\nSeqCraft Parse Output(s):\n"
-			output += fmt.Sprintf("File: %s\n", filename)
-			output += fmt.Sprintf("Date and Time: %s\n", currentTime)
-			output += fmt.Sprintf("Number of Records Parsed: %d\n", len(records))
 
 			// Initialize variables for aggregate statistics
 			totalLength := 0
@@ -179,6 +178,16 @@ func NewParseCmd() *cobra.Command {
 					output += fmt.Sprintf("%s: %.4f\n", string(nucleotide), count)
 				}
 			}
+
+			// Get the current date/time and create the output string
+			currentTime := time.Now().Format("January 2, 2006 3:04 PM")
+			output += fmt.Sprintf("File: %s\n", filename)
+			output += fmt.Sprintf("Date and Time: %s\n", currentTime)
+			output += fmt.Sprintf("Number of Records Parsed: %d\n", len(records))
+
+			// Print the time taken for processing
+			elapsedTime := time.Since(startTime)
+			output += fmt.Sprintf("Time taken for processing: %s\n", elapsedTime)
 
 			// Print or save output
 			if outputFile != "" {
